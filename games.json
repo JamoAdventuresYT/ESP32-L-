@@ -3,4 +3,8 @@
     "name": "Flappy Bird",
     "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/flappy.html"
   }
+  {
+    "name": "Wave",
+    "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/Wave.html"
+  }
 ]
