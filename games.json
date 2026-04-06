@@ -1,5 +1,3 @@
 [
-  { "name": "Snake", "url": "https://yourname.github.io/snake" },
-  { "name": "Tetris", "url": "https://yourname.github.io/tetris" },
-  { "name": "Clicker", "url": "https://yourname.github.io/clicker" }
+  { "name": "test", "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/test.html" },
 ]
