@@ -1,3 +1,6 @@
 [
-  { "name": "Test Game", "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/test.html" }
+  {
+    "name": "Flappy Bird",
+    "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/flappy.html"
+  }
 ]
