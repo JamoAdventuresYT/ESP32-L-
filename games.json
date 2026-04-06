@@ -1,10 +1,4 @@
 [
-  {
-    "name": "Flappy Bird",
-    "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/flappy.html"
-  }
-  {
-    "name": "Wave",
-    "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/Wave.html"
-  }
+  { "name": "Flappy", "url": "https://JamoAdventuresYT.github.io/ESP32-L-/flappy.html" },
+  { "name": "Wave Mode", "url": "https://JamoAdventuresYT.github.io/ESP32-L-/wave.html" }
 ]
