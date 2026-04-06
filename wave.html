@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Wave Mode</title>
+<title>Wave Mode GD</title>
 <style>
 body {
   margin: 0;
@@ -11,12 +11,9 @@ body {
   font-family: Arial, sans-serif;
   user-select: none;
 }
-
 canvas {
   display: block;
-  background: #0f172a;
 }
-
 h1 {
   position: absolute;
   top: 10px;
@@ -36,21 +33,21 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let wave = { x: 100, y: canvas.height/2, size: 20, speed: 0 };
-let gravity = 0.6;
-let jump = -12;
-
+let wave = { x: 100, y: canvas.height/2, size: 20, direction: 1, speed: 6 };
 let obstacles = [];
 let frame = 0;
 let score = 0;
+let holding = false;
 
+// Create obstacles
 function createObstacle() {
-  const gap = 150;
+  const gap = 200;
   const height = Math.random() * (canvas.height - gap - 100) + 50;
   obstacles.push({x: canvas.width, y: 0, width: 30, height: height});
   obstacles.push({x: canvas.width, y: height + gap, width: 30, height: canvas.height - height - gap});
 }
 
+// Draw the wave
 function drawWave() {
   ctx.fillStyle = '#22c55e';
   ctx.strokeStyle = 'black';
@@ -61,6 +58,7 @@ function drawWave() {
   ctx.stroke();
 }
 
+// Draw obstacles
 function drawObstacles() {
   ctx.fillStyle = '#f87171';
   ctx.strokeStyle = 'black';
@@ -71,6 +69,7 @@ function drawObstacles() {
   });
 }
 
+// Check collisions
 function checkCollision() {
   for (let ob of obstacles) {
     if (wave.x + wave.size > ob.x && wave.x - wave.size < ob.x + ob.width &&
@@ -83,7 +82,7 @@ function checkCollision() {
 
 function resetGame() {
   wave.y = canvas.height/2;
-  wave.speed = 0;
+  wave.direction = 1;
   obstacles = [];
   score = 0;
   frame = 0;
@@ -91,17 +90,17 @@ function resetGame() {
 
 function update() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  
-  // Wave physics
-  wave.speed += gravity;
-  wave.y += wave.speed;
+
+  // Wave mechanics
+  wave.y += wave.speed * (holding ? -1 : 1);
+  wave.x += 4; // optional horizontal speed for visual motion
 
   // Obstacles
   if (frame % 90 === 0) createObstacle();
   obstacles.forEach(ob => ob.x -= 6);
   obstacles = obstacles.filter(ob => ob.x + ob.width > 0);
 
-  // Draw everything
+  // Draw
   drawWave();
   drawObstacles();
   checkCollision();
@@ -116,12 +115,11 @@ function update() {
   requestAnimationFrame(update);
 }
 
-window.addEventListener('keydown', () => {
-  wave.speed = jump;
-});
-window.addEventListener('mousedown', () => {
-  wave.speed = jump;
-});
+// Input
+window.addEventListener('mousedown', () => holding = true);
+window.addEventListener('mouseup', () => holding = false);
+window.addEventListener('keydown', e => { if (e.key === ' ') holding = true });
+window.addEventListener('keyup', e => { if (e.key === ' ') holding = false });
 
 update();
 </script>
