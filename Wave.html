@@ -1,110 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Wave Mode Challenge</title>
+<title>Wave Mode</title>
 <style>
-  body { margin:0; overflow:hidden; background:#0f172a; }
-  canvas { display:block; margin:0 auto; background:#020617; }
+body {
+  margin: 0;
+  background: #0f172a;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  user-select: none;
+}
+
+canvas {
+  display: block;
+  background: #0f172a;
+}
+
+h1 {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
 </style>
 </head>
 <body>
+<h1>Wave Mode</h1>
 <canvas id="game"></canvas>
 <script>
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
-let W = canvas.width = window.innerWidth;
-let H = canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-window.addEventListener('resize', ()=> { W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; });
-
-let ship = { x: 100, y: H/2, size: 30, dy:0, speed:0.5 };
-let gravity = 0.3;
-let jump = -8;
+let wave = { x: 100, y: canvas.height/2, size: 20, speed: 0 };
+let gravity = 0.6;
+let jump = -12;
 
 let obstacles = [];
 let frame = 0;
-let speed = 4;
+let score = 0;
 
-// generate repeating obstacle patterns
-const pattern = [
-  { gapY: 200, gapSize: 150 },
-  { gapY: 250, gapSize: 120 },
-  { gapY: 180, gapSize: 180 },
-  { gapY: 220, gapSize: 130 }
-];
-
-function spawnObstacle() {
-  let p = pattern[frame % pattern.length];
-  obstacles.push({ x: W, gapY: p.gapY, gapSize: p.gapSize });
+function createObstacle() {
+  const gap = 150;
+  const height = Math.random() * (canvas.height - gap - 100) + 50;
+  obstacles.push({x: canvas.width, y: 0, width: 30, height: height});
+  obstacles.push({x: canvas.width, y: height + gap, width: 30, height: canvas.height - height - gap});
 }
 
-function drawShip() {
+function drawWave() {
   ctx.fillStyle = '#22c55e';
   ctx.strokeStyle = 'black';
-  ctx.lineWidth = 3;
-  ctx.fillRect(ship.x, ship.y, ship.size, ship.size);
-  ctx.strokeRect(ship.x, ship.y, ship.size, ship.size);
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(wave.x, wave.y, wave.size, 0, Math.PI*2);
+  ctx.fill();
+  ctx.stroke();
 }
 
 function drawObstacles() {
-  ctx.fillStyle = '#facc15';
+  ctx.fillStyle = '#f87171';
   ctx.strokeStyle = 'black';
-  ctx.lineWidth = 3;
-  obstacles.forEach(obs => {
-    // top rect
-    ctx.fillRect(obs.x, 0, 50, obs.gapY - obs.gapSize/2);
-    ctx.strokeRect(obs.x, 0, 50, obs.gapY - obs.gapSize/2);
-    // bottom rect
-    ctx.fillRect(obs.x, obs.gapY + obs.gapSize/2, 50, H - (obs.gapY + obs.gapSize/2));
-    ctx.strokeRect(obs.x, obs.gapY + obs.gapSize/2, 50, H - (obs.gapY + obs.gapSize/2));
+  ctx.lineWidth = 2;
+  obstacles.forEach(ob => {
+    ctx.fillRect(ob.x, ob.y, ob.width, ob.height);
+    ctx.strokeRect(ob.x, ob.y, ob.width, ob.height);
   });
 }
 
-function update() {
-  ctx.clearRect(0,0,W,H);
-  frame++;
-
-  // spawn obstacles every 90 frames
-  if(frame % 90 === 0) spawnObstacle();
-
-  // move obstacles
-  obstacles.forEach(obs => obs.x -= speed);
-  obstacles = obstacles.filter(obs => obs.x + 50 > 0); // remove offscreen
-
-  // ship physics
-  ship.dy += gravity;
-  ship.y += ship.dy;
-
-  // collision detection
-  for(let obs of obstacles){
-    if(ship.x + ship.size > obs.x && ship.x < obs.x + 50){
-      if(ship.y < obs.gapY - obs.gapSize/2 || ship.y + ship.size > obs.gapY + obs.gapSize/2){
-        resetGame();
-      }
+function checkCollision() {
+  for (let ob of obstacles) {
+    if (wave.x + wave.size > ob.x && wave.x - wave.size < ob.x + ob.width &&
+        wave.y + wave.size > ob.y && wave.y - wave.size < ob.y + ob.height) {
+      resetGame();
     }
   }
-
-  // floor & ceiling
-  if(ship.y < 0) { ship.y=0; ship.dy=0; }
-  if(ship.y + ship.size > H){ ship.y=H-ship.size; ship.dy=0; }
-
-  drawShip();
-  drawObstacles();
-
-  requestAnimationFrame(update);
+  if (wave.y - wave.size < 0 || wave.y + wave.size > canvas.height) resetGame();
 }
 
 function resetGame() {
-  ship.y = H/2; ship.dy=0; obstacles=[]; frame=0; speed=4;
+  wave.y = canvas.height/2;
+  wave.speed = 0;
+  obstacles = [];
+  score = 0;
+  frame = 0;
 }
 
-// controls
-window.addEventListener('keydown', e=>{
-  if(e.code==='Space' || e.code==='ArrowUp'){ ship.dy=jump; }
-});
+function update() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  
+  // Wave physics
+  wave.speed += gravity;
+  wave.y += wave.speed;
 
-window.addEventListener('mousedown', ()=>{ ship.dy=jump; });
+  // Obstacles
+  if (frame % 90 === 0) createObstacle();
+  obstacles.forEach(ob => ob.x -= 6);
+  obstacles = obstacles.filter(ob => ob.x + ob.width > 0);
+
+  // Draw everything
+  drawWave();
+  drawObstacles();
+  checkCollision();
+
+  // Score
+  ctx.fillStyle = 'white';
+  ctx.font = '20px Segoe UI';
+  ctx.fillText('Score: ' + score, 20, 30);
+
+  score++;
+  frame++;
+  requestAnimationFrame(update);
+}
+
+window.addEventListener('keydown', () => {
+  wave.speed = jump;
+});
+window.addEventListener('mousedown', () => {
+  wave.speed = jump;
+});
 
 update();
 </script>
