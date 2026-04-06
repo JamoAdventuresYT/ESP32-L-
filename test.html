@@ -1,144 +1,157 @@
-<html><head>
-    <meta charset="UTF-8">
-    <link rel="manifest" href="manifest.webmanifest">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <meta name="theme-color" content="#000000">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-	<style>
-		body {
-			margin: 0;
-			padding: 0;
-			background-color: #000000;
-            overflow: hidden;
-		}
-        #canvasArea {
-            margin-left: auto;
-            margin-right: auto;
-            overflow: hidden;
-        }
-
-        
-	</style>
-    <!-- Libs and GDJS core files : -->
-		<script src="libs/jshashtable.js" crossorigin="anonymous"></script>
-	<script src="logger.js" crossorigin="anonymous"></script>
-	<script src="gd.js" crossorigin="anonymous"></script>
-	<script src="libs/rbush.js" crossorigin="anonymous"></script>
-	<script src="AsyncTasksManager.js" crossorigin="anonymous"></script>
-	<script src="inputmanager.js" crossorigin="anonymous"></script>
-	<script src="jsonmanager.js" crossorigin="anonymous"></script>
-	<script src="timemanager.js" crossorigin="anonymous"></script>
-	<script src="polygon.js" crossorigin="anonymous"></script>
-	<script src="runtimeobject.js" crossorigin="anonymous"></script>
-	<script src="profiler.js" crossorigin="anonymous"></script>
-	<script src="RuntimeInstanceContainer.js" crossorigin="anonymous"></script>
-	<script src="runtimescene.js" crossorigin="anonymous"></script>
-	<script src="scenestack.js" crossorigin="anonymous"></script>
-	<script src="force.js" crossorigin="anonymous"></script>
-	<script src="layer.js" crossorigin="anonymous"></script>
-	<script src="RuntimeSceneLayer.js" crossorigin="anonymous"></script>
-	<script src="timer.js" crossorigin="anonymous"></script>
-	<script src="runtimegame.js" crossorigin="anonymous"></script>
-	<script src="variable.js" crossorigin="anonymous"></script>
-	<script src="variablescontainer.js" crossorigin="anonymous"></script>
-	<script src="oncetriggers.js" crossorigin="anonymous"></script>
-	<script src="runtimebehavior.js" crossorigin="anonymous"></script>
-	<script src="spriteruntimeobject.js" crossorigin="anonymous"></script>
-	<script src="affinetransformation.js" crossorigin="anonymous"></script>
-	<script src="CustomRuntimeObjectInstanceContainer.js" crossorigin="anonymous"></script>
-	<script src="CustomRuntimeObject.js" crossorigin="anonymous"></script>
-	<script src="events-tools/commontools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/variabletools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/runtimescenetools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/inputtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/objecttools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/cameratools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/soundtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/storagetools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/stringtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/windowtools.js" crossorigin="anonymous"></script>
-	<script src="events-tools/networktools.js" crossorigin="anonymous"></script>
-	<script src="splash/gd-logo-light.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-filters-tools.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/runtimegame-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/runtimescene-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/layer-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-image-manager.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-bitmapfont-manager.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/spriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/CustomObjectPixiRenderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/DebuggerPixiRenderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/loadingscreen-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="pixi-renderers/pixi-effects-manager.js" crossorigin="anonymous"></script>
-	<script src="howler-sound-manager/howler.min.js" crossorigin="anonymous"></script>
-	<script src="howler-sound-manager/howler-sound-manager.js" crossorigin="anonymous"></script>
-	<script src="fontfaceobserver-font-manager/fontfaceobserver.js" crossorigin="anonymous"></script>
-	<script src="fontfaceobserver-font-manager/fontfaceobserver-font-manager.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TiledSpriteObject/tiledspriteruntimeobject.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TiledSpriteObject/tiledspriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="Extensions/PlatformBehavior/platformruntimebehavior.js" crossorigin="anonymous"></script>
-	<script src="Extensions/PlatformBehavior/platformerobjectruntimebehavior.js" crossorigin="anonymous"></script>
-	<script src="Extensions/PlatformBehavior/platformtools.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TopDownMovementBehavior/topdownmovementruntimebehavior.js" crossorigin="anonymous"></script>
-	<script src="Extensions/PanelSpriteObject/panelspriteruntimeobject.js" crossorigin="anonymous"></script>
-	<script src="Extensions/PanelSpriteObject/panelspriteruntimeobject-pixi-renderer.js" crossorigin="anonymous"></script>
-	<script src="gdjs-evtsext__rectanglemovement__rectanglemovement.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TweenBehavior/shifty.js" crossorigin="anonymous"></script>
-	<script src="Extensions/TweenBehavior/tweentools.js" crossorigin="anonymous"></script>
-	<script src="gdjs-evtsext__ellipsemovement__ellipsemovement.js" crossorigin="anonymous"></script>
-	<script src="Extensions/Effects/blur-pixi-filter.js" crossorigin="anonymous"></script>
-	<script src="Extensions/Effects/glow-pixi-filter.js" crossorigin="anonymous"></script>
-	<script src="Extensions/Effects/pixi-filters/filter-glow.js" crossorigin="anonymous"></script>
-	<script src="gdjs-evtsext__repeateveryxseconds__repeat-func.js" crossorigin="anonymous"></script>
-	<script src="code0.js" crossorigin="anonymous"></script>
-	<script src="code1.js" crossorigin="anonymous"></script>
-	<script src="code2.js" crossorigin="anonymous"></script>
-	<script src="code3.js" crossorigin="anonymous"></script>
-	<script src="code4.js" crossorigin="anonymous"></script>
-	<script src="code5.js" crossorigin="anonymous"></script>
-	<script src="code6.js" crossorigin="anonymous"></script>
-	<script src="code7.js" crossorigin="anonymous"></script>
-	<script src="code8.js" crossorigin="anonymous"></script>
-	<script src="code9.js" crossorigin="anonymous"></script>
-	<script src="code10.js" crossorigin="anonymous"></script>
-	<script src="code11.js" crossorigin="anonymous"></script>
-	<script src="code12.js" crossorigin="anonymous"></script>
-	<script src="code13.js" crossorigin="anonymous"></script>
-	<script src="code14.js" crossorigin="anonymous"></script>
-	<script src="code15.js" crossorigin="anonymous"></script>
-	<script src="code16.js" crossorigin="anonymous"></script>
-	<script src="code17.js" crossorigin="anonymous"></script>
-	<script src="data.js" crossorigin="anonymous"></script>
-
-
-<title></title></head>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Flappy Bird</title>
+<style>
+  body {
+    margin: 0;
+    background: #87ceeb; /* sky blue */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  canvas {
+    border: 3px solid black; /* black outline for canvas */
+    background: #87ceeb; /* sky */
+  }
+</style>
+</head>
 <body>
 
-    
-	<script>
+<canvas id="gameCanvas" width="400" height="600"></canvas>
 
-    (function() {
-        //Initialization
-        var game = new gdjs.RuntimeGame(gdjs.projectData, {});
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-        //Create a renderer
-        game.getRenderer().createStandardCanvas(document.body);
+// Game variables
+let bird = { x: 80, y: 300, width: 30, height: 30, velocity: 0 };
+const gravity = 0.6;
+const jump = -10;
 
-        //Bind keyboards/mouse/touch events
-        game.getRenderer().bindStandardEvents(game.getInputManager(), window, document);
+let pipes = [];
+const pipeWidth = 60;
+const pipeGap = 150;
+let frame = 0;
+let score = 0;
+let gameOver = false;
 
-        //Load all assets and start the game
-        game.loadAllAssets(function() {
-            game.startGameLoop();
-        });
-    })();
+// Key input
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") bird.velocity = jump;
+});
 
-	</script><canvas width="1184" height="640" tabindex="1" style="touch-action: none; position: absolute; user-select: none; outline: none; top: 0px; left: 0px; width: 1184px; height: 640px; cursor: inherit;"></canvas><div style="position: absolute; overflow: hidden; outline: none; pointer-events: none; user-select: none; top: 0px; left: 0px; width: 1184px; height: 640px;"></div>
+function resetGame() {
+  bird.y = 300;
+  bird.velocity = 0;
+  pipes = [];
+  frame = 0;
+  score = 0;
+  gameOver = false;
+}
 
+function drawBird() {
+  ctx.fillStyle = "#FFD700"; // gold
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+  ctx.strokeRect(bird.x, bird.y, bird.width, bird.height);
+}
 
-</body></html>
+function drawPipe(pipe) {
+  ctx.fillStyle = "#228B22"; // forest green
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  // top pipe
+  ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
+  ctx.strokeRect(pipe.x, 0, pipeWidth, pipe.top);
+  // bottom pipe
+  ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY);
+  ctx.strokeRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY);
+}
+
+function drawScore() {
+  ctx.fillStyle = "black";
+  ctx.font = "24px Arial";
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 3;
+  ctx.fillText("Score: " + score, 10, 30);
+  ctx.strokeText("Score: " + score, 10, 30);
+}
+
+function checkCollision(pipe) {
+  // bird hits pipe
+  if (bird.x < pipe.x + pipeWidth && bird.x + bird.width > pipe.x) {
+    if (bird.y < pipe.top || bird.y + bird.height > pipe.bottomY) {
+      return true;
+    }
+  }
+  // hits ground or ceiling
+  if (bird.y + bird.height > canvas.height || bird.y < 0) return true;
+  return false;
+}
+
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // bird physics
+  bird.velocity += gravity;
+  bird.y += bird.velocity;
+
+  drawBird();
+
+  // generate pipes
+  if (frame % 90 === 0) {
+    const topHeight = Math.random() * (canvas.height - pipeGap - 100) + 50;
+    pipes.push({ x: canvas.width, top: topHeight, bottomY: topHeight + pipeGap });
+  }
+
+  // move pipes
+  pipes.forEach((pipe, index) => {
+    pipe.x -= 3;
+    drawPipe(pipe);
+
+    if (!gameOver && pipe.x + pipeWidth === bird.x) score++;
+
+    if (checkCollision(pipe)) {
+      gameOver = true;
+    }
+
+    // remove offscreen pipes
+    if (pipe.x + pipeWidth < 0) pipes.splice(index, 1);
+  });
+
+  drawScore();
+
+  if (!gameOver) {
+    frame++;
+    requestAnimationFrame(gameLoop);
+  } else {
+    ctx.fillStyle = "red";
+    ctx.font = "40px Arial";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 4;
+    ctx.fillText("Game Over", canvas.width/2 - 100, canvas.height/2);
+    ctx.strokeText("Game Over", canvas.width/2 - 100, canvas.height/2);
+    ctx.font = "20px Arial";
+    ctx.fillText("Press Space to Restart", canvas.width/2 - 110, canvas.height/2 + 40);
+    ctx.strokeText("Press Space to Restart", canvas.width/2 - 110, canvas.height/2 + 40);
+  }
+}
+
+// restart on space if game over
+document.addEventListener("keydown", e => {
+  if (e.code === "Space" && gameOver) {
+    resetGame();
+    requestAnimationFrame(gameLoop);
+  }
+});
+
+// start game
+requestAnimationFrame(gameLoop);
+</script>
+
+</body>
+</html>
