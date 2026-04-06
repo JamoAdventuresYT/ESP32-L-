@@ -1,6 +1,3 @@
 [
-  {
-    "name": "Test Game",
-    "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/test.html"
-  }
+  { "name": "Test Game", "url": "https://raw.githubusercontent.com/JamoAdventuresYT/ESP32-L-/main/test.html" }
 ]
